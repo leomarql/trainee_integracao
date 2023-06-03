@@ -4,22 +4,22 @@
 import rospy
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
-from vel_turtlebot.srv import velocity_control
+from vel_turtlebot.srv import velocity_control,velocity_controlResponse,v
 from math import pow, atan2, sqrt
 
 class TurtleBot3Control:
-    def __init__(self,x,y):
+    def __init__(self):
         # Inicializa o nó ROS
         rospy.init_node('turtlebot3_control', anonymous=True)
-
+        
         self.velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         self.odom_subscriber = rospy.Subscriber('/odom', Odometry, self.odom_callback)
 
         self.velocity_msg = Twist()
 
         # Define a posição alvo na odom
-        self.target_x = x
-        self.target_y = y
+        self.target_x=0
+        self.target_y=0
 
         # Define a tolerância para alcançar a posição alvo
         self.tolerance = 0.2
@@ -54,23 +54,22 @@ class TurtleBot3Control:
         self.velocity_msg.linear.x = 0.0
         self.velocity_msg.angular.z = 0.0
         self.velocity_publisher.publish(self.velocity_msg)
-def velocity_handler(req):
-    try:
-        # Cria o objeto TurtleBot3Control
-        turtlebot3_control = TurtleBot3Control(req.x,req.y)
-
-        # Move o TurtleBot3 para a posição alvo
-        turtlebot3_control.move_turtlebot3()
-        return True
-
-    except rospy.ROSInterruptException:
-        return False;
+    def velocity_handler(self,req):
+        self.target_x = req.x
+        self.target_y = req.y
+        self.move_turtlebot3()
+        return velocity_controlResponse(True)
+    def control_server(self):
+        service = rospy.Service('/controlar_velocidade', velocity_control, self.velocity_handler)
+        print("Pronto para receber a posição: ")
+        rospy.spin()
 
 if __name__ == '__main__':
+    try:
     
-
-    rospy.init_node("vel_control_server")
-    rospy.loginfo("Nó do server de controlar a velocidade criado")
-    service = rospy.Service("/controlar_velocidade",velocity_control, velocity_handler)
-    print ("Service started")
-    rospy.spin()
+        turtlebot3_control = TurtleBot3Control()
+        turtlebot3_control.control_server()
+        
+    except rospy.ROSInterruptException:
+        pass
+    
