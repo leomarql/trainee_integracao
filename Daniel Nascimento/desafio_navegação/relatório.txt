@@ -1,0 +1,16 @@
+Mudanças :
+1.Troca do h_cost e do g_cost.
+    Motivo: Eles estavem invertidos e não faziam referência aos seus respectivos valores.
+2. Troca no __lt__ de f_cost para h_cost.
+    Motivo: Precisava de um critério de desempate quando os dois f_cost são iguais. E fazendo essa mudança podemos
+    comparar os h_cost quando o f_cost é igual;
+3. Adicionando a soma g_cost e h_cost na função f_cost.
+    Motivo: A função f_cost é a soma do g_cost e h_cost e estava faltando essa soma para retornar o verdadeiro valor
+    de h_cost
+4. Mudança para distância de Manhattan no lugar da euclidiana e conversão das coordenadas do goal.
+    Motivo: Como o algoritmo não se move na diagonal não faz sentido ele calcular a distância euclidiana. Assim, 
+    fez-se a mudança para distância de Manhattan no lugar. Além disso, faltou converter as coordenadas do goal do
+    mundo real para o grid. Já que estava dando erro por que as coordenadas não batiam e o movimento ficava estranho.
+5. Adição da comparação entre dois h_costs para escolher sempre o menor caminho.
+    Motivo: Quando tinha dois f_cost iguais, o algoritmo não sabia qual ele devia priorizar. Assim usando __lt__, 
+    fez-se com que ele priorizasse o menor h_cost quando os dois eram iguais.
