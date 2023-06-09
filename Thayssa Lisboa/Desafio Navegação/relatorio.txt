@@ -1,0 +1,45 @@
+Modificações no arquivo 'node.py'
+
+original:
+    self.g_cost = h_cost
+    self.h_cost = g_cost
+
+    def f_cost(self):                                                                                                           
+        return self.g_cost
+
+    def __lt__(self, other):
+        return self.f_cost() < other.f_cost()
+
+modificado:
+    self.g_cost = g_cost
+    self.h_cost = h_cost
+
+    def f_cost(self):                                                                                                           
+        return (self.g_cost + self.h_cost)
+
+    def __lt__(self, other):
+        return self.h_cost < other.h_cost
+
+erros 1 e 2: modificados pois anteriormente o g cost estava recebendo o h cost e vice versa
+erro 3: modificado pois f cost é a soma do g cos com o h cost e a função estava retornando apenas o g,
+fazendo com que o algoritmo não tivesse noção da distância em relação ao end point
+dá pra notar que depois de corrigir a função o algoritmo começa a ir apenas em direção ao end node
+erro 4: foi modificado pois usando a PriorityQueue o f_cost() de menor valor já é verificado, faltando 
+apenas verificar o h_cost caso os valores de h sejam iguais entre um nó e seu vizinho
+------------------------
+
+Modificação no arquivo 'AStar.py'
+
+original:
+    def heuristic(self, x, y):                                         
+        dist = math.sqrt((x - goal_pose_x)**2 + abs(y - goal_pose_y)**2) 
+        return dist
+
+modificado:
+    def heuristic(self, x, y):    
+        goal_x, goal_y = self.world_to_grid(self.goal_pose_x, self.goal_pose_y)                                      
+        dist = abs(x - goal_x) + abs(y - goal_y)
+        return dist
+
+erro 5: modificado pois como o código não precisa ir na diagonal não tem necessidade de usar a euclidiana,
+além de usar a funcao world_to_grid para transformar as coordenadas para o mapa
