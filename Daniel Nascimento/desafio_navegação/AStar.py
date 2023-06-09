@@ -132,10 +132,8 @@ class AStarPlanner:
                     continue
 
                 rviz.publish_marker(self.grid_to_world(neighbor.x, neighbor.y), (0, 1, 0.0), self.map_resolution)
-                
-                if(neighbor.h_cost<node[1].h_cost for node in open_list.queue):
                 # Adicionar o vizinho Ã  lista aberta
-                    open_list.put((neighbor.f_cost(), neighbor))
+                open_list.put((neighbor.f_cost(), neighbor))
 
         rospy.loginfo("Path not found.")
 
