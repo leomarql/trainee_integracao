@@ -1,0 +1,8 @@
+1. Node.py
+-> Atribução correta das variáveis 'g_cost' e 'h_cost' no construtor, inicialmente invertidas.
+-> Refatoração do método de sobrecarga '__lt__' com o intuito de facilitar a ordenação dos objetos na Priority Queue. Agora está de acordo com a ordem do A*: gCost, hCost. (O primeiro elemento da Priority Queue já é o fCost).
+-> Refatoração do método 'f_cost', que inicialmente retornava apenas o 'g_cost', agora retorna a soma dos 'g_cost' e 'h_cost' (definição de f_cost no A*)
+
+2. AStar.py
+-> Feature no método 'heuristic' para chamar o método 'world_to_grid' da mesma classe que faz a conversão para as coordenadas de grade antes de calcular a distância.
+-> Refatoração da variável 'dist' da função 'heuristic' para calcular a soma das diferenças absolutas (manhattan) ao invés da euclidiana (Visto que temos apenas vizinhos são horizontais e verticais).
