@@ -11,6 +11,3 @@ Mudanças :
     Motivo: Como o algoritmo não se move na diagonal não faz sentido ele calcular a distância euclidiana. Assim, 
     fez-se a mudança para distância de Manhattan no lugar. Além disso, faltou converter as coordenadas do goal do
     mundo real para o grid. Já que estava dando erro por que as coordenadas não batiam e o movimento ficava estranho.
-5. Adição da comparação entre dois h_costs para escolher sempre o menor caminho.
-    Motivo: Quando tinha dois f_cost iguais, o algoritmo não sabia qual ele devia priorizar. Assim usando __lt__, 
-    fez-se com que ele priorizasse o menor h_cost quando os dois eram iguais.
