@@ -5,4 +5,4 @@
 
 2. AStar.py
 -> Feature no método 'heuristic' para chamar o método 'world_to_grid' da mesma classe que faz a conversão para as coordenadas de grade antes de calcular a distância.
--> Refatoração da variável 'dist' da função 'heuristic' para calcular a soma das diferenças absolutas (manhattan) ao invés da euclidiana (Visto que temos apenas vizinhos são horizontais e verticais).
+-> Refatoração da variável 'dist' da função 'heuristic' para calcular a soma das diferenças absolutas (manhattan) ao invés da euclidiana (Visto que temos apenas vizinhos horizontais e verticais).
