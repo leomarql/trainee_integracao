@@ -1,0 +1,30 @@
+Relatório do Desafio da Navegação - Diogo Muzzi Mortimer
+
+
+node.py
+	-função __init__:
+		-Erro de sintaxe: g_cost e h_cost invertidos.
+		
+		linha 5: self.g_cost = h_cost --> self.g_cost = g_cost
+		linha 6: self.h_cost = g_cost --> self.h_cost = h_cost
+	
+	-função __lt__:
+		-Erro de conceito: na função find_path do arquivo AStar.py, a open list recebe dois argumentos: o f cost do node vizinho e o node vizinho. Ao rodar o algoritmo, o f cost já é comparado automaticamente. No caso de serem iguais, devem ser comparadas as heurísticas de cada node, ou seja, o quão longe estão do alvo.
+		
+		self.f_cost() < f_cost() --> self.h_cost < h_cost
+	
+	-função f_cost:
+		-Erro de conceito: f cost é definido como a soma de g cost e h cost. 
+		
+		linha 16: return self.g_cost --> return self.g_cost + self.h_cost
+
+
+AStar.py
+	-função: heuristic:
+		-Erro de conceito: já que o mapa é discreto, a distância que deve ser utilizada pelo algoritmo é a distância de Manhattan (soma do módulo da diferença entre x atual e x alvo e do módulo da diferença entre y atual e y alvo), e não a distância euclidiana (raiz quadrada da soma do quadrado da diferença de x alvo e x atual e do quadrado da diferença de y atual e y alvo). Além disso, a posição alvo dada na função original (self.goal_pose) foi incorretamente usada, uma vez que ela está na resolução de world, quando deveria estar em grid. Para resolver isso, foram criadas duas variáveis intermediárias goal_x e goal_y, que correspondem à posição alvo em resolução grid.
+		
+		linha 54: goal_x, goal_y = self.world_to_grid(self.goal_pose_x, self.goal_pose_y)
+		linha 55: dist = math.sqrt((x - self.goal_pose_x)**2 + (y - self.goal_pose_y)**2) -->         dist = float(abs(goal_x - x) + abs(goal_y - y))
+	
+		OBS: Uma possível melhor solução para este bug seria criar duas novas váriaveis na classe, goal_grid_x e goal_grid_y, que corresponderiam à posição alvo em grid. Assim, não seria preciso fazer a conversão toda vez que a função heuristic fosse chamada. Essa solução não foi implementada por falta de tempo e receio que isso inesperadamente quebrasse o código (Lei de Murphy).
+
