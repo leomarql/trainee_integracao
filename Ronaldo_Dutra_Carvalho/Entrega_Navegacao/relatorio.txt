@@ -1,0 +1,30 @@
+  A primeira modificação que eu realizei foi no arquivo node.py, alterando a implementacao da funcao f_cost, que antes retornava apenas o valor de g_cost 
+e agora retorna a soma de g_cost com h_cost. Tambem arrumei os problemas no __init__ da classe, que possuiam atribuição de atributos trocados.
+Além disso, modifiquei a maneira como uma lista de nodes é iterada (antes pelo maior f_cost) para o maior g_cost, uma vez que no arquivo AStar, a priority
+queue ja utiliza o f_cost para criar a ordem de prioridade. As modificações ficaram assim:
+
+class Node:
+    def __init__(self, x, y, g_cost, h_cost, parent=None):
+        self.x = x
+        self.y = y
+        self.g_cost = g_cost
+        self.h_cost = h_cost
+        self.parent = parent
+
+    def __lt__(self, other):
+         return self.h_cost < other.h_cost
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+    def f_cost(self):                                                                                                           
+        return self.g_cost + self.h_cost  
+
+No arquivo AStar,apenas modifiquei a funcao heuristic que antes retornava a distancia euclidiana entre dois pontos, mas como não estamos contando com nós vizinhos
+diagonais, a distancia deve ser medida como a soma de deslocamentos horizontais e verticais entre os dois pontos, além disso devemos converter as coordenadas goal_pose
+que recebemos no frame world para o formato grid,ficando assim:
+
+    def heuristic(self, x, y):    
+        pose_x,pose_y = self.world_to_grid(self.goal_pose_x,self.goal_pose_y)                                      
+        dist = abs(x - pose_x) +abs(y - pose_y)
+        return dist 
