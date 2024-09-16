@@ -1,0 +1,54 @@
+No arquivo node.py : 
+
+5ª e 6ª linhas do código -> g cost e h cost estavam trocados
+self.g_cost = g_cost
+self.h_cost = h_cost
+
+10ª linha do código -> modifiquei a função para comparar o hcost dos nós e utilizá-lo 
+como segundo critério na comparação dos nós
+
+def __lt__(self, other):
+return self.h_cost < other.h_cost
+
+16ª linha -> a função de retorno do f cost retornava o valor errado
+o correto é h cost + f cost
+
+def f_cost(self):                                                                                                           
+return self.h_cost + self.g_cost   
+
+arquivo AStar.py :
+
+linha 53 -> a função que retorna o hcost não considerava o valor das coordenadas 
+finais convertidas para a proporção do rviz, apenas as cordenadas do ponto inicial.
+Além disso a funão utilizada era a de heuristic(utiliza pitágora), isso é um erro pois 
+o caminho de nós não percorre distância diagonais. Por isso o sistema de distancia foi 
+trocada pelo cálculo de manhattan. Ps: a função heuristic agora recebe os parâmetros
+goal_x e goal_y, portanto tive de adicionar esse valores na chamada da função
+heuristic toda vez que ela é utilizada, inclusive quando está dentro de outras funções
+(como na linha 60).
+
+def heuristic(self, x, y,goal_x,goal_y):                                          
+        #dist = math.sqrt((x - goal_x)**2 + 
+        #                 (y - goal_y)**2)
+        dist = abs(x - goal_x) + abs(y - goal_y)
+        return dist
+
+linha 104 -> Implementei uma maneira de colocar o hcost como segundo critério 
+para a escolha do próximo nó, adicionei um print para mostrar o gcost, hcost
+e fcost do nó atula e nós vizinhos (apenas como ferramenta de averiguação do 
+funcionamento do código). Depois de alguns testes vi que não era necessário
+a implementação de um segundo critério e na verdade atrapalhava. :/
+
+x = 0
+_, current_node = open_list.get()
+if x > 0 :
+    next_node = open_list.get()
+    if next_node.f_cost() == current_node.f_cost() and next_node.__lt__(self, current_node):
+        open_list.put((current_node.f_cost(), current_node))
+        next_node = current_node
+    else:
+        open_list.put((next_node.f_cost(), next_node))
+    
+    
+print("g cost, h cost e f cost são",current_node.g_cost,current_node.h_cost,current_node.f_cost())
+x += 1

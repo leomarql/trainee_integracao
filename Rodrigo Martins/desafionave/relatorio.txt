@@ -1,0 +1,49 @@
+As 4  modificações foram realizadas no arquivo node.py
+sendo:
+    A posição trocada do g_cost com o h_cost
+
+    Antes de ser modificado
+    self.g_cost = h_cost
+    self.h_cost = g_cost
+
+    Modificado
+    self.g_cost = g_cost
+    self.h_cost = h_cost
+
+
+    A f_cost não estava definido como a soma de g_cost com o h_cost
+    sendo necessario essa soma, visto que o g_cost é a distância do nó inicial 
+    ao nó ....... 
+
+    Antes de ser modificado
+    def f_cost(self):
+        return self.g_cost  
+
+    Modificado
+    def f_cost(self):
+        return(self.g_cost + self.h_cost) 
+
+    Em vista de quando o f_cost tiver dois valores vizinhos iguais,sendo necessário o uso do h_cost
+    para desempatar assim buscando o melhor caminho, sendo isso mudado no codigo, verificando o menor valor
+    de h_cost
+    Antes de ser modificado
+    def __lt__(self,other):
+        return self.f_cost() < other.f_cost()
+    Modificado
+    def __lt__(self,other):
+        return self.h_cost < other.h_cost
+    
+A quinta e última modificação foi realizada no arquivo AStar.py
+    
+    Sendo essa última modificação realizada na parte da heuristica, em vista
+    de não ser realizado o deslocamento na diagonal, assim sendo necessário o 
+    cálculo de mahnattan
+
+    Modificado
+    def heuristic (self,x,y):
+        dist = abs(x - goal_x) + abs(y - goal_y)
+        return dist
+        
+    Além de ter passado as coordenadas já convertidas tanto de x quanto de y.
+
+       
